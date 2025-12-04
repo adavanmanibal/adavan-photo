@@ -1478,10 +1478,11 @@
 
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                navLinks.classList.remove('active');
-            });
+            menuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.classList.remove('menu-open');
         });
+    });
 
         // Reveal animations on scroll
         const reveals = document.querySelectorAll('.reveal');
