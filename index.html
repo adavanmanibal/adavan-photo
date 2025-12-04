@@ -163,6 +163,10 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
 
+        body.menu-open {
+            overflow: hidden;
+        }
+
         /* Hero Section */
         .hero {
             height: 100vh;
@@ -1469,6 +1473,7 @@
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
         });
 
         navLinks.querySelectorAll('a').forEach(link => {
