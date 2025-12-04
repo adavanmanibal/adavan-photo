@@ -896,69 +896,60 @@
             }
         }
 
-        @media (max-width: 768px) {
+                @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
             }
-
-        .nav-links {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--color-bg);
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s;
-            z-index: 999;
-        }
         
-        .nav-links.active {
-            opacity: 1;
-            pointer-events: all;
-        }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: var(--color-bg);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.4s;
+                z-index: 999;
+            }
         
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            padding: 10px;
-            z-index: 1001;
-            position: relative;
-        }
-
+            .nav-links.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+        
             .nav-links a {
                 font-size: 1rem;
             }
-
+        
             .portfolio-tabs {
                 flex-wrap: wrap;
                 gap: 1rem;
             }
-
+        
             .portfolio-grid {
                 grid-template-columns: 1fr 1fr;
             }
-
+        
             .portfolio-item.large {
                 grid-column: span 1;
                 grid-row: span 1;
             }
-
+        
             .hero-title {
                 font-size: 2.5rem;
             }
-
+        
             .section-title {
                 font-size: 2rem;
             }
         }
+        
     </style>
 </head>
 <body>
