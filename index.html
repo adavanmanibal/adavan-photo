@@ -916,6 +916,7 @@
                 pointer-events: none;
                 transition: opacity 0.4s;
                 z-index: 999;
+                overflow-y: auto;
             }
         
             .nav-links.active {
@@ -1477,6 +1478,11 @@
             menuToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
             document.body.classList.toggle('menu-open');
+            
+        // Scroll vers le haut quand le menu s'ouvre
+        if (navLinks.classList.contains('active')) {
+            window.scrollTo(0, 0);
+            }
         });
 
         navLinks.querySelectorAll('a').forEach(link => {
