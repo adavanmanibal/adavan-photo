@@ -8,967 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-bg: #0a0a0a;
-            --color-bg-secondary: #141414;
-            --color-text: #f5f5f0;
-            --color-text-muted: #a8a8a0;
-            --color-accent: #c9a96e;
-            --color-accent-light: #e0c99a;
-            --font-display: 'Cormorant Garamond', serif;
-            --font-body: 'Montserrat', sans-serif;
-            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--color-bg);
-            color: var(--color-text);
-            line-height: 1.7;
-            font-weight: 300;
-            overflow-x: hidden;
-        }
-
-        /* Cursor personnalisé */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 1px solid var(--color-accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.15s var(--transition-smooth), opacity 0.15s;
-            opacity: 0;
-        }
-
-        .cursor.active {
-            opacity: 1;
-        }
-
-        .cursor.hover {
-            transform: scale(2);
-            background: rgba(201, 169, 110, 0.1);
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 1.5rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(to bottom, rgba(10,10,10,0.9) 0%, transparent 100%);
-            transition: all 0.4s var(--transition-smooth);
-            z-index: 1000;
-        }
-
-        nav.scrolled {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 4rem;
-        }
-
-        .logo {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            color: var(--color-text);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .logo span {
-            color: var(--color-accent);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 3rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-size: 0.75rem;
-            font-weight: 400;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            text-decoration: none;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--color-accent);
-            transition: width 0.4s var(--transition-smooth);
-        }
-
-        .nav-links a:hover {
-            color: var(--color-text);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Menu mobile */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            padding: 10px;
-            z-index: 1001;
-        }
-
-        .menu-toggle span {
-            width: 25px;
-            height: 1px;
-            background: var(--color-text);
-            transition: all 0.3s;
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        body.menu-open {
-            overflow: hidden;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-.hero-bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.8);
-}
-
-        .hero-content {
-            text-align: center;
-            z-index: 1;
-            padding: 2rem;
-        }
-
-        .hero-subtitle {
-            font-size: 0.7rem;
-            font-weight: 400;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--color-accent);
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeUp 1s var(--transition-smooth) 0.3s forwards;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 300;
-            line-height: 1.1;
-            letter-spacing: 0.02em;
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeUp 1s var(--transition-smooth) 0.5s forwards;
-        }
-
-        .hero-title span {
-            font-style: italic;
-            color: var(--color-accent);
-        }
-
-        .hero-description {
-            font-size: 1rem;
-            color: var(--color-text-muted);
-            max-width: 500px;
-            margin: 0 auto 3rem;
-            opacity: 0;
-            animation: fadeUp 1s var(--transition-smooth) 0.7s forwards;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 2.5rem;
-            border: 1px solid var(--color-accent);
-            color: var(--color-accent);
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            transition: all 0.4s var(--transition-smooth);
-            opacity: 0;
-            animation: fadeUp 1s var(--transition-smooth) 0.9s forwards;
-        }
-
-        .hero-cta:hover {
-            background: var(--color-accent);
-            color: var(--color-bg);
-        }
-
-        .hero-cta svg {
-            transition: transform 0.3s;
-        }
-
-        .hero-cta:hover svg {
-            transform: translateX(5px);
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--color-accent);
-            opacity: 0;
-            animation: fadeIn 1s var(--transition-smooth) 1.2s forwards;
-        }
-        
-        .scroll-indicator svg {
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
-        }
-        
-        @media (max-height: 700px) {
-            .scroll-indicator {
-                display: none;
-            }
-        }
-
-        /* Section styling */
-        section {
-            padding: 8rem 4rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .section-label {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--color-accent);
-            margin-bottom: 1.5rem;
-        }
-
-        .section-title {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 300;
-            line-height: 1.2;
-        }
-
-        /* À propos */
-        #about {
-            background: var(--color-bg-secondary);
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            align-items: center;
-        }
-
-        .about-image {
-            position: relative;
-        }
-
-        .about-image-frame {
-            aspect-ratio: 3/4;
-            background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-secondary) 100%);
-            border: 1px solid rgba(201, 169, 110, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-image-frame::before {
-            content: '';
-            position: absolute;
-            inset: 20px;
-            border: 1px solid rgba(201, 169, 110, 0.1);
-        }
-
-        .about-image-placeholder {
-            font-family: var(--font-display);
-            font-size: 8rem;
-            font-weight: 300;
-            color: rgba(201, 169, 110, 0.15);
-        }
-
-        .about-image-accent {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 150px;
-            height: 150px;
-            border: 1px solid var(--color-accent);
-            opacity: 0.3;
-        }
-
-        .about-content h3 {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-        }
-
-        .about-content h3 span {
-            font-style: italic;
-            color: var(--color-accent);
-        }
-
-        .about-content p {
-            color: var(--color-text-muted);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-
-        .about-signature {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            font-style: italic;
-            color: var(--color-accent);
-            margin-top: 2rem;
-        }
-
-        /* Services / Portfolio */
-        #services {
-            background: var(--color-bg);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: var(--color-bg-secondary);
-            padding: 3rem;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.5s var(--transition-smooth);
-            cursor: pointer;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
-            transform: scaleX(0);
-            transition: transform 0.5s var(--transition-smooth);
-        }
-
-        .service-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            border: 1px solid var(--color-accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-            transition: all 0.4s var(--transition-smooth);
-        }
-
-        .service-card:hover .service-icon {
-            background: var(--color-accent);
-        }
-
-        .service-icon svg {
-            width: 24px;
-            height: 24px;
-            stroke: var(--color-accent);
-            fill: none;
-            transition: stroke 0.4s;
-        }
-
-        .service-card:hover .service-icon svg {
-            stroke: var(--color-bg);
-        }
-
-        .service-card h3 {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 400;
-            margin-bottom: 1rem;
-            letter-spacing: 0.05em;
-        }
-
-        .service-card p {
-            color: var(--color-text-muted);
-            font-size: 0.9rem;
-            line-height: 1.8;
-        }
-
-        .service-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 2rem;
-            color: var(--color-accent);
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            text-decoration: none;
-            transition: gap 0.3s;
-        }
-
-        .service-link:hover {
-            gap: 1rem;
-        }
-
-        /* Portfolio Gallery */
-        #portfolio {
-            background: var(--color-bg-secondary);
-        }
-
-        .portfolio-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-bottom: 4rem;
-        }
-
-        .portfolio-tab {
-            background: none;
-            border: none;
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            font-weight: 400;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            cursor: pointer;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .portfolio-tab::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--color-accent);
-            transition: width 0.4s var(--transition-smooth);
-        }
-
-        .portfolio-tab.active,
-        .portfolio-tab:hover {
-            color: var(--color-text);
-        }
-
-        .portfolio-tab.active::after {
-            width: 100%;
-        }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .portfolio-item {
-            aspect-ratio: 1;
-            background: var(--color-bg);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .portfolio-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent 50%, rgba(10,10,10,0.9) 100%);
-            opacity: 0;
-            transition: opacity 0.4s;
-            z-index: 1;
-        }
-
-        .portfolio-item:hover::before {
-            opacity: 1;
-        }
-
-        .portfolio-placeholder {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(201, 169, 110, 0.05) 0%, transparent 100%);
-        }
-
-        .portfolio-placeholder svg {
-            width: 40px;
-            height: 40px;
-            stroke: rgba(201, 169, 110, 0.2);
-            fill: none;
-        }
-
-        .portfolio-item-info {
-            position: absolute;
-            bottom: 1.5rem;
-            left: 1.5rem;
-            z-index: 2;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.4s var(--transition-smooth);
-        }
-
-        .portfolio-item:hover .portfolio-item-info {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .portfolio-item-info span {
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-accent);
-        }
-
-        .portfolio-item-info h4 {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 400;
-            margin-top: 0.3rem;
-        }
-
-        .portfolio-item.large {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-
-        /* Contact Section */
-        #contact {
-            background: var(--color-bg);
-            position: relative;
-        }
-
-        .contact-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-        }
-
-        .contact-info h3 {
-            font-family: var(--font-display);
-            font-size: 3rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            line-height: 1.2;
-        }
-
-        .contact-info h3 span {
-            font-style: italic;
-            color: var(--color-accent);
-        }
-
-        .contact-info p {
-            color: var(--color-text-muted);
-            margin-bottom: 3rem;
-            font-size: 0.95rem;
-        }
-
-        .contact-details {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .contact-item-icon {
-            width: 50px;
-            height: 50px;
-            border: 1px solid rgba(201, 169, 110, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .contact-item-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--color-accent);
-            fill: none;
-        }
-
-        .contact-item-text span {
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-right: 0.5rem;
-        }
-
-.contact-item-text {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-        .contact-item-text a,
-        .contact-item-text p {
-            color: var(--color-text);
-            text-decoration: none;
-            font-size: 1rem;
-            margin-top: 0;
-            margin-bottom: 0;
-            transition: color 0.3s;
-        }
-
-        .contact-item-text a:hover {
-            color: var(--color-accent);
-        }
-
-        .contact-form {
-            background: var(--color-bg-secondary);
-            padding: 3rem;
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--color-text-muted);
-            margin-bottom: 0.8rem;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 1rem;
-            background: var(--color-bg);
-            border: 1px solid rgba(201, 169, 110, 0.2);
-            color: var(--color-text);
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--color-accent);
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .form-group select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a96e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1.2rem 2rem;
-            background: transparent;
-            border: 1px solid var(--color-accent);
-            color: var(--color-accent);
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.4s var(--transition-smooth);
-        }
-
-        .submit-btn:hover {
-            background: var(--color-accent);
-            color: var(--color-bg);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--color-bg-secondary);
-            padding: 4rem;
-            text-align: center;
-        }
-
-        .footer-logo {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            margin-bottom: 2rem;
-        }
-
-        .footer-logo span {
-            color: var(--color-accent);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .social-links a {
-            width: 45px;
-            height: 45px;
-            border: 1px solid rgba(201, 169, 110, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            border-color: var(--color-accent);
-            background: var(--color-accent);
-        }
-
-        .social-links a svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--color-text);
-            transition: fill 0.3s;
-        }
-
-        .social-links a:hover svg {
-            fill: var(--color-bg);
-        }
-
-        .footer-copyright {
-            font-size: 0.75rem;
-            color: var(--color-text-muted);
-            letter-spacing: 0.1em;
-        }
-
-        /* Animations */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        /* Reveal animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s var(--transition-smooth);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            section {
-                padding: 5rem 2rem;
-            }
-
-            nav {
-                padding: 1.5rem 2rem;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 4rem;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .portfolio-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .contact-wrapper {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-        }
-
-                @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-            }
-        
-            .nav-links {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: var(--color-bg);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 2rem;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.4s;
-                z-index: 999;
-                overflow-y: auto;
-            }
-        
-            .nav-links.active {
-                opacity: 1;
-                pointer-events: all;
-            }
-        
-            .nav-links a {
-                font-size: 1rem;
-            }
-        
-            .portfolio-tabs {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-        
-            .portfolio-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        
-            .portfolio-item.large {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
-        
-            .hero-title {
-                font-size: 2.5rem;
-            }
-        
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-        
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Custom Cursor -->
@@ -993,7 +33,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-bg">
-            <img src="mariages/cc-2.jpg" alt="Photographie" class="hero-image">
+            <img width="2048" height="1365" src="mariages/cc-2.jpg" alt="Photographie" class="hero-image">
         </div>
         <div class="hero-content">
             <p class="hero-subtitle">Photographe à Tours</p>
@@ -1018,7 +58,7 @@
         <div class="about-grid">
             <div class="about-image reveal">
                 <div class="about-image-frame">
-                    <img src="portraits/home-page-banner.jpg" alt="Adavan - Photographe à Tours" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img loading="lazy" width="1620" height="1080" src="portraits/home-page-banner.jpg" alt="Adavan - Photographe à Tours" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div class="about-image-accent"></div>
             </div>
@@ -1108,126 +148,126 @@
         <div class="portfolio-grid reveal">
     <!-- MARIAGES -->
     <div class="portfolio-item large" data-category="mariage">
-        <img src="mariages/cc-1.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2048" height="1365" src="mariages/cc-1.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Camille & Chakir</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/cc-2.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img width="2048" height="1365" src="mariages/cc-2.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Camille & Chakir</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/cc-7.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2048" height="1365" src="mariages/cc-7.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Camille & Chakir</h4>
     </div>
     </div>
     <div class="portfolio-item large" data-category="mariage">
-        <img src="mariages/cc-hero.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2048" height="1365" src="mariages/cc-hero.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Camille & Chakir</h4>
         </div>
     </div>
     <div class="portfolio-item large" data-category="mariage">
-        <img src="mariages/cc-8.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2048" height="1365" src="mariages/cc-8.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Camille & Chakir</h4>
         </div>
     </div>
     <div class="portfolio-item large" data-category="mariage">
-        <img src="mariages/cc-5.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1638" height="2048" src="mariages/cc-5.jpg" alt="Mariage Camille et Chakir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Camille & Chakir</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/ja-1.jpg" alt="Mariage Alison et Jérôme" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/ja-1.jpg" alt="Mariage Alison et Jérôme" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Alison & Jérôme</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/ja-2.jpg" alt="Mariage Alison et Jérôme" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/ja-2.jpg" alt="Mariage Alison et Jérôme" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Alison & Jérôme</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/ja-3.jpg" alt="Mariage Alison et Jérôme" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/ja-3.jpg" alt="Mariage Alison et Jérôme" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Alison & Jérôme</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/ja-4.jpg" alt="Mariage Alison et Jérôme" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1620" src="mariages/ja-4.jpg" alt="Mariage Alison et Jérôme" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Alison & Jérôme</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/lq-1.jpg" alt="Mariage Laurène et Quentin" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/lq-1.jpg" alt="Mariage Laurène et Quentin" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Laurène & Quentin</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/lq-2.jpg" alt="Mariage Laurène et Quentin" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/lq-2.jpg" alt="Mariage Laurène et Quentin" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Laurène & Quentin</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/lq-4.jpg" alt="Mariage Laurène et Quentin" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/lq-4.jpg" alt="Mariage Laurène et Quentin" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Laurène & Quentin</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/lq-5.jpg" alt="Mariage Laurène et Quentin" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/lq-5.jpg" alt="Mariage Laurène et Quentin" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Laurène & Quentin</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/pz-1.jpg" alt="Mariage Pauline et Zaafir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/pz-1.jpg" alt="Mariage Pauline et Zaafir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Pauline & Zaafir</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/pz-2.jpg" alt="Mariage Pauline et Zaafir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/pz-2.jpg" alt="Mariage Pauline et Zaafir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Pauline & Zaafir</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/pz-3.jpg" alt="Mariage Pauline et Zaafir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="mariages/pz-3.jpg" alt="Mariage Pauline et Zaafir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Pauline & Zaafir</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="mariage">
-        <img src="mariages/pz-4.jpg" alt="Mariage Pauline et Zaafir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1350" height="1080" src="mariages/pz-4.jpg" alt="Mariage Pauline et Zaafir" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Mariage</span>
             <h4>Pauline & Zaafir</h4>
@@ -1236,56 +276,56 @@
 
     <!-- PORTRAITS -->
     <div class="portfolio-item large" data-category="portrait">
-        <img src="portraits/11.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="523" src="portraits/11.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Portrait</span>
             <h4>Séance portrait</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="portrait">
-        <img src="portraits/2.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="portraits/2.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Portrait</span>
             <h4>Séance portrait</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="portrait">
-        <img src="portraits/3.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="portraits/3.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Portrait</span>
             <h4>Séance portrait</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="portrait">
-        <img src="portraits/4.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="portraits/4.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Portrait</span>
             <h4>Séance portrait</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="portrait">
-        <img src="portraits/5.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="portraits/5.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Portrait</span>
             <h4>Séance portrait</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="portrait">
-        <img src="portraits/7.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="portraits/7.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Portrait</span>
             <h4>Séance portrait</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="portrait">
-        <img src="portraits/8.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="portraits/8.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Portrait</span>
             <h4>Séance portrait</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="portrait">
-        <img src="portraits/10.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="1080" height="1350" src="portraits/10.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Portrait</span>
             <h4>Séance portrait</h4>
@@ -1294,56 +334,56 @@
 
     <!-- ÉVÉNEMENTS -->
     <div class="portfolio-item large" data-category="evenement">
-        <img src="events/1.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2160" height="1440" src="events/1.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Événement</span>
             <h4>Reportage événement</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="evenement">
-        <img src="events/2.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2160" height="1440" src="events/2.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Événement</span>
             <h4>Reportage événement</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="evenement">
-        <img src="events/3.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2160" height="1440" src="events/3.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Événement</span>
             <h4>Reportage événement</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="evenement">
-        <img src="events/4.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2160" height="1440" src="events/4.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Événement</span>
             <h4>Reportage événement</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="evenement">
-        <img src="events/5.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2160" height="1440" src="events/5.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Événement</span>
             <h4>Reportage événement</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="evenement">
-        <img src="events/6.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="2160" height="1519" src="events/6.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Événement</span>
             <h4>Reportage événement</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="evenement">
-        <img src="events/7.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="720" height="1080" src="events/7.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Événement</span>
             <h4>Reportage événement</h4>
         </div>
     </div>
     <div class="portfolio-item" data-category="evenement">
-        <img src="events/8.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
+        <img loading="lazy" width="719" height="1080" src="events/8.jpg" alt="Événement" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;">
         <div class="portfolio-item-info">
             <span>Événement</span>
             <h4>Reportage événement</h4>
@@ -1437,111 +477,6 @@
         <p class="footer-copyright">© 2025 Adavan Photographie. Tous droits réservés.</p>
     </footer>
 
-    <script>
-        // Custom cursor
-        const cursor = document.querySelector('.cursor');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursor.classList.add('active');
-        });
-
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
-            cursor.style.left = cursorX - 10 + 'px';
-            cursor.style.top = cursorY - 10 + 'px';
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // Hover effect on links
-        document.querySelectorAll('a, button, .service-card, .portfolio-item').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
-        // Hide cursor on mobile
-        if ('ontouchstart' in window) {
-            cursor.style.display = 'none';
-        }
-
-        // Navigation scroll effect
-        const nav = document.querySelector('nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
-        // Mobile menu toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-            
-        // Scroll vers le haut quand le menu s'ouvre
-        if (navLinks.classList.contains('active')) {
-            window.scrollTo(0, 0);
-            }
-        });
-
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-            document.body.classList.remove('menu-open');
-        });
-    });
-
-        // Reveal animations on scroll
-        const reveals = document.querySelectorAll('.reveal');
-        
-        function revealOnScroll() {
-            reveals.forEach(el => {
-                const windowHeight = window.innerHeight;
-                const elementTop = el.getBoundingClientRect().top;
-                const revealPoint = 150;
-
-                if (elementTop < windowHeight - revealPoint) {
-                    el.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll();
-
-        // Portfolio filter
-        const tabs = document.querySelectorAll('.portfolio-tab');
-        const items = document.querySelectorAll('.portfolio-item');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-
-                const filter = tab.dataset.filter;
-
-                items.forEach(item => {
-                    if (filter === 'all' || item.dataset.category === filter) {
-                        item.style.display = 'block';
-                        setTimeout(() => item.style.opacity = '1', 10);
-                    } else {
-                        item.style.opacity = '0';
-                        setTimeout(() => item.style.display = 'none', 300);
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="script.js" defer></script>
 </body>
 </html>
