@@ -542,6 +542,7 @@ section {
     gap: 1rem;
     max-width: 1400px;
     margin: 0 auto;
+    grid-auto-flow: dense;
 }
 
 .portfolio-item {
