@@ -73,6 +73,11 @@ nav.scrolled {
     padding: 1rem 4rem;
 }
 
+nav.menu-active {
+    backdrop-filter: none !important;
+    background: var(--color-bg) !important;
+}
+
 .logo {
     font-family: var(--font-display);
     font-size: 1.8rem;
