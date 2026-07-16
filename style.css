@@ -926,7 +926,7 @@ footer {
         gap: 2rem;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.4s;
+        transition: none;
         z-index: 999;
         overflow-y: auto;
     }
