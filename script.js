@@ -47,14 +47,16 @@ menuToggle.addEventListener('click', () => {
     menuToggle.classList.toggle('active');
     navLinks.classList.toggle('active');
     document.body.classList.toggle('menu-open');
+    nav.classList.toggle('menu-active');
 });
 
 navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
-    menuToggle.classList.remove('active');
-    navLinks.classList.remove('active');
-    document.body.classList.remove('menu-open');
-});
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        nav.classList.remove('menu-active');
+    });
 });
 
 // Reveal animations on scroll
