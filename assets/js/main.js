@@ -121,9 +121,35 @@
     heroSticky.style.setProperty('--cr', lerp(heroStart.s, 0, p).toFixed(1) + 'px');
     heroSticky.style.setProperty('--cl', lerp(heroStart.s, 0, p).toFixed(1) + 'px');
     heroSticky.style.setProperty('--cb', lerp(heroStart.b, 0, p).toFixed(1) + 'px');
-    // décale la photo vers le bas au départ pour garder les visages dans le bandeau
-    const shiftFactor = (narrow.matches || portrait.matches) ? 0.5 : 0.8;
-    heroSticky.style.setProperty('--shift', (lerp(heroStart.t - heroStart.b, 0, p) * shiftFactor).toFixed(1) + 'px');
+    frameHeroImage(p);
+  };
+
+  /* Cadrage par point focal : les visages (data-focus="x y", en fractions de l'image)
+     restent dans le haut du bandeau visible, quelle que soit la taille de l'écran. */
+  const heroImg = $('.hero-img');
+  const frameHeroImage = p => {
+    if (!heroImg) return;
+    const iw = heroImg.naturalWidth || +heroImg.getAttribute('width');
+    const ih = heroImg.naturalHeight || +heroImg.getAttribute('height');
+    if (!iw || !ih) return;
+    const sw = heroSticky.clientWidth, sh = heroSticky.clientHeight;
+    const focusAttr = ih > iw ? (heroImg.dataset.focusPortrait || heroImg.dataset.focus) : heroImg.dataset.focus;
+    const [fx, fy] = (focusAttr || '0.5 0.4').split(' ').map(Number);
+    const k = 1.14 - 0.14 * p;                       // léger zoom qui se relâche au scroll
+    const cover = Math.max(sw / iw, sh / ih) * k;
+    const w = iw * cover, h = ih * cover;
+    // zone visible du cadre à cet instant
+    const top = lerp(heroStart.t, 0, p), bottom = sh - lerp(heroStart.b, 0, p);
+    const left = lerp(heroStart.s, 0, p), right = sw - lerp(heroStart.s, 0, p);
+    // le point focal se place à 38 % de la hauteur visible, centré horizontalement
+    let y = top + (bottom - top) * 0.38 - fy * h;
+    let x = (left + right) / 2 - fx * w;
+    y = Math.min(top, Math.max(bottom - h, y));       // jamais de vide dans le cadre
+    x = Math.min(left, Math.max(right - w, x));
+    heroImg.style.width = w.toFixed(1) + 'px';
+    heroImg.style.height = h.toFixed(1) + 'px';
+    heroImg.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+    heroImg.classList.add('is-framed');
   };
 
   if (hero) {
@@ -133,6 +159,8 @@
     scrollHandlers.push(y => { if (y < vh * 2.5) renderHero(y); });
     // les polices modifient la hauteur du titre : on remesure une fois chargées
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measureHero(); renderHero(window.scrollY); });
+    if (heroImg) heroImg.addEventListener('load', () => renderHero(window.scrollY));
+    portrait.addEventListener('change', () => { measureHero(); renderHero(window.scrollY); });
   }
 
   /* ------------------------------------------------------------------
@@ -471,6 +499,25 @@
         status.classList.add('is-err');
         status.innerHTML = 'L\'envoi n\'a pas abouti. Réessayez dans un instant ou écrivez-moi à <a href="mailto:contact@adavan.fr">contact@adavan.fr</a>.';
       }
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Bouton « revenir en haut »
+     ------------------------------------------------------------------ */
+  const toTop = $('[data-to-top]');
+  if (toTop) {
+    const ring = $('[data-to-top-ring]', toTop);
+    toTop.hidden = false;
+    scrollHandlers.push(y => {
+      const max = document.documentElement.scrollHeight - vh;
+      toTop.classList.toggle('is-on', y > vh * 1.6);
+      ring.style.strokeDashoffset = (100 - clamp(y / (max || 1)) * 100).toFixed(2);
+    });
+    toTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+      // rend le focus au haut de page pour la navigation clavier
+      setTimeout(() => $('.nav-logo').focus({ preventScroll: true }), 50);
     });
   }
 

@@ -74,7 +74,7 @@
     <section class="hero" id="top" data-hero>
       <div class="hero-sticky">
         <div class="hero-intro">
-          <h1 class="hero-title">Des images vraies,<br>prises au bon moment.</h1>
+          <h1 class="hero-title">Des émotions<br>capturées<br>au bon moment.</h1>
           <div class="hero-side">
             <p class="hero-lede">Photographe mariage, portrait et événement à Tours et alentours.</p>
             <div class="hero-actions">
@@ -87,7 +87,7 @@
         <div class="hero-frame" data-hero-frame>
           <picture>
             <source media="(max-width: 700px), (orientation: portrait)" srcset="photos/mariages/lm-14-900.jpg 720w, photos/mariages/lm-14-1800.jpg 1440w" sizes="100vw">
-            <img class="hero-img" src="photos/mariages/lm-11-1800.jpg" srcset="photos/mariages/lm-11-900.jpg 900w, photos/mariages/lm-11-1800.jpg 1800w" sizes="100vw" width="1800" height="1200" alt="Les mariés front contre front dans le jardin d'un vieux moulin en pierre" fetchpriority="high">
+            <img class="hero-img" data-focus="0.52 0.24" data-focus-portrait="0.42 0.33" src="photos/mariages/lm-11-1800.jpg" srcset="photos/mariages/lm-11-900.jpg 900w, photos/mariages/lm-11-1800.jpg 1800w" sizes="100vw" width="1800" height="1200" alt="Les mariés front contre front dans le jardin d'un vieux moulin en pierre" fetchpriority="high">
           </picture>
           <p class="hero-caption">Léa &amp; Maxime</p>
         </div>
@@ -706,6 +706,12 @@
     </div>
     <p class="footer-legal">© <span data-year>2026</span> Adavan Photographie. Tous droits réservés. Photos non libres de droits. <a href="mentions-legales.html">Mentions légales</a></p>
   </footer>
+
+  <!-- Retour en haut -->
+  <button class="to-top" data-to-top aria-label="Revenir en haut de la page" hidden>
+    <svg class="to-top-ring" viewBox="0 0 52 52" aria-hidden="true"><rect x="1" y="1" width="50" height="50" pathLength="100" data-to-top-ring/></svg>
+    <svg class="to-top-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
 
   <!-- Visionneuse -->
   <div class="lightbox" data-lightbox role="dialog" aria-modal="true" aria-label="Visionneuse photo" hidden>
