@@ -310,7 +310,7 @@ html.has-cursor [data-cursor], html.has-cursor [data-cursor] * { cursor: none; }
 .about-media .parallax-wrap img { object-position: 38% 50%; }
 .about-inset {
   position: absolute; left: -12%; bottom: 0; width: 42%;
-  aspect-ratio: 4 / 5; object-fit: cover;
+  aspect-ratio: 4 / 5; object-fit: cover; object-position: 56% 50%;
   border: 10px solid var(--ivory);
   will-change: transform;
 }
